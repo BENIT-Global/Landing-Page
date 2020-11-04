@@ -1,55 +1,17 @@
-/**
- *
- * Manipulating the DOM exercise.
- * Exercise programmatically builds navigation,
- * scrolls to anchors from navigation,
- * and highlights section in viewport upon scrolling.
- *
- * Dependencies: None
- *
- * JS Version: ES2015/ES6
- *
- * JS Standard: ESlint
- *
- */
+var mybutton = document.getElementById("myBtn");
 
-/**
- * Define Global Variables
- *
- */
+window.onscroll = function() {scroll_Function()};
 
 
-/**
- * End Global Variables
- * Start Helper Functions
- *
- */
+function scroll_Function() {
+    if (document.documentElement.scrollTop > 500) {
+        // thanh scroll khi keo xuong 20
+        mybutton.style.display = "block";
+    } else {
+        mybutton.style.display = "none";
+    }
+}
 
-
-
-/**
- * End Helper Functions
- * Begin Main Functions
- *
- */
-
-// build the nav
-
-
-// Add class 'active' to section when near top of viewport
-
-
-// Scroll to anchor ID using scrollTO event
-
-
-/**
- * End Main Functions
- * Begin Events
- *
- */
-
-// Build menu
-
-// Scroll to section on link click
-
-// Set sections as active
+function scroll_position() {
+    window.scrollTo(0, 0);
+}
