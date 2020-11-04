@@ -249,3 +249,8 @@ section.your-active-class .landing__container::after {
     padding: 15px;
     border-radius: 4px;
 }
+
+
+html {
+    scroll-behavior: smooth;
+}
