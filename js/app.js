@@ -27,7 +27,7 @@ var htmlsects = document.getElementsByTagName('section')
 */
 
 // check which element is active
-function active_elem() {
+const active_elem = () => {
   max = htmlsects[0];
   min = 31415926;
   for (small_section in htmlsects) {
@@ -50,7 +50,7 @@ function active_elem() {
 */
 
 // build the nav
-function sect_add() {
+const sect_add = () => {
   for (let object of htmlsects) {
     let new_ele = document.createElement('li');
     new_ele.className = 'menu__link';
@@ -98,16 +98,30 @@ var mybutton = document.getElementById("myBtn");
 
 window.onscroll = () => scroll_Function();
 
+var prevScrollpos = window.pageYOffset;
+
+
 
 const scroll_Function = () => {
-  if (document.documentElement.scrollTop <= 500) {
-    mybutton.style.display = "none";
-  } else {
-    // control the display of the button
-    mybutton.style.display = "block";
-  }
+  var currentScrollPos = window.pageYOffset;
+  if ((document.documentElement.scrollTop) > 500 & (prevScrollpos > currentScrollPos) ){
+  mybutton.style.display= "block";
+  document.getElementById("navbars").style.top = "0";
+} else {
+  document.getElementById("navbars").style.top = "-50px";
+  mybutton.style.display = "none";
 }
+    // control the display of the button
+    prevScrollpos = currentScrollPos;
 
+    
+  }
+  setTimeout(scroll_Function,200)
+ 
+  
+    
+  
+  
 const scroll_position = () => window.scrollTo(0, 0)
 
 // Build menu 
@@ -119,12 +133,3 @@ scrolling();
 // Set sections as active
 active_viewport();
 
-/*var scrolling = false;
-   $(window).on('scroll', function(){
-      if( !scrolling ) {
-         scrolling = true;
-         (!window.requestAnimationFrame)
-            ? setTimeout(autoHideHeader, 250)
-            : requestAnimationFrame(autoHideHeader);
-      }
-});*/
