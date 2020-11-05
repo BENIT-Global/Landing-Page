@@ -28,17 +28,20 @@ var htmlsects = document.getElementsByTagName('section')
 
 // check which element is active
 function active_elem() {
-    max = htmlsects[0];
-    min = 1000000;
-    for (small_section in htmlsects) {
-        let rect = small_section.getrectClientRect();
-        if (rect.top > -300 & rect.top < min) {
-            min = rect.top;
-            max = small_section;
-        };
+  max = htmlsects[0];
+  min = 31415926;
+  for (small_section in htmlsects) {
+    let rect = small_section.getrectClientRect();
+    if (!(rect.top > -100 & rect.top < min)) {
+      // do nothing
+
+    } else {
+      min = rect.top;
+      max = small_section;
     };
-    return maxSection;
-};
+  };
+  return max;
+}
 
 /**
  * End Helper Functions
@@ -47,78 +50,81 @@ function active_elem() {
 */
 
 // build the nav
-function addSections() {
-    for (let object of htmlsects) {
-        let new_ele = document.createElement('li');
-        new_ele.className = 'menu__link';
-        new_ele.dataset.nav = object.id;
-        new_ele.innerText = object.dataset.nav;
-        htmlnav.appendChild(new_ele);
-    };
-};
+function sect_add() {
+  for (let object of htmlsects) {
+    let new_ele = document.createElement('li');
+    new_ele.className = 'menu__link';
+    new_ele.dataset.nav = object.id;
+    new_ele.innerText = object.dataset.nav;
+    htmlnav.appendChild(new_ele);
+  };
+}
 
 // Add class 'active' to section when near top of viewport
-function active_viewport () {
-    window.addEventListener('scroll', function (event) {
-        let _sect = getActiveElem();
-        _sect.classList.add('your-active-class');
-        // set other sections as inactive
-        for (let item of htmlsects) {
-            if (item.id != section.id & item.classList.contains('your-active-class')) {
-                item.classList.remove('your-active-class');
-            }
-        }
-        // set corresponding header style
-        const active = document.querySelector('li[data-nav="' + section.id + '"]');
-        active.classList.add('active__link');
-        // remove from other headers
-        const headers = document.querySelectorAll('.menu__link');
-        for (let item of headers) {
-            console.log(item);
-            if (item.dataset.nav != active.dataset.nav & item.classList.contains('active__link')) {
-                item.classList.remove('active__link');
-            }
-        };
-    });
-};
+const active_viewport = () => window.addEventListener('scroll', (_event) => {
+  let _sect = getActiveElem();
+  _sect.classList.add('your-active-class');
+  // set other sections as inactive
+  for (let section in htmlsects) {
+    if (section.id != _sect.id & _sect.classList.contains('your-active-class')) {
+      section.classList.remove('your-active-class');
+    }
+  }
+  // set corresponding header style
+  const set_head = document.querySelector('li[data-nav="' + _sect.id + '"]');
+  set_head.classList.add('active__link');
+  // remove from other headers
+  const headers = document.getElementsByTagName('.menu__link');
+  for (let sect in headers) {
+    console.log(sect);
+    if (!(sect.dataset.nav != set_head.dataset.nav & sect.classList.contains('active__link'))) {
+      // do nothing
+
+    } else {
+      sect.classList.remove('active__link');
+    }
+  };
+});
 
 // Scroll to anchor ID using scrollTO event
-function scrollToClick() {
-    navbar.addEventListener('click', function (event) {
-        const clicked = document.querySelector('#' + event.target.dataset.nav)
-        clicked.scrollIntoView();
-    });
-};
+const scrolling = () => htmlnav.addEventListener('click', function (event) {
+  const click = document.querySelector('#' + event.target.dataset.nav)
+  click.scrollIntoView();
+});
 
 
-/**
- * End Main Functions
- * Begin Events
- * 
-*/
 
-// Build menu 
-addSections();
-
-// Scroll to section on link click
-scrollToClick();
-
-// Set sections as active
-setActive();
 var mybutton = document.getElementById("myBtn");
 
-window.onscroll = function() {scroll_Function()};
+window.onscroll = () => scroll_Function();
 
 
-function scroll_Function() {
-    if (document.documentElement.scrollTop > 500) {
-        // thanh scroll khi keo xuong 20
-        mybutton.style.display = "block";
-    } else {
-        mybutton.style.display = "none";
-    }
+const scroll_Function = () => {
+  if (document.documentElement.scrollTop <= 500) {
+    mybutton.style.display = "none";
+  } else {
+    // control the display of the button
+    mybutton.style.display = "block";
+  }
 }
 
-function scroll_position() {
-    window.scrollTo(0, 0);
-}
+const scroll_position = () => window.scrollTo(0, 0)
+
+// Build menu 
+sect_add();
+
+// Scroll to section on link click
+scrolling();
+
+// Set sections as active
+active_viewport();
+
+/*var scrolling = false;
+   $(window).on('scroll', function(){
+      if( !scrolling ) {
+         scrolling = true;
+         (!window.requestAnimationFrame)
+            ? setTimeout(autoHideHeader, 250)
+            : requestAnimationFrame(autoHideHeader);
+      }
+});*/
