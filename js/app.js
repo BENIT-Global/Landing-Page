@@ -94,18 +94,42 @@ const scrolling = () => htmlnav.addEventListener('click', function (event) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 var mybutton = document.getElementById("myBtn");
 
-window.onscroll = () => scroll_Function();
+window.onscroll = function(){scroll_Function()};
+
+var prevScrollpos = window.pageYOffset;
 
 
-const scroll_Function = () => {
+function scroll_Function() {
   if (document.documentElement.scrollTop <= 500) {
     mybutton.style.display = "none";
-  } else {
+  } if (document.documentElement.scrollTop > 500) {
     // control the display of the button
     mybutton.style.display = "block";
   }
+
+
+  currentScrollPos = window.pageYOffset;
+
+  if (prevScrollpos > currentScrollPos) {
+    document.getElementById("nav").style.top = "0";
+  } if(prevScrollpos <= currentScrollPos) {
+    document.getElementById("nav").style.top = "-60px";
+  }
+  prevScrollpos = currentScrollPos;
 }
 
 const scroll_position = () => window.scrollTo(0, 0)
