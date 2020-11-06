@@ -20,19 +20,24 @@ const navadd = () => {
     document.header.append(html3.header.childNodes[2]);
     document.header.append(html4.header.childNodes[3]);
 
-    w++;
+    w=w+1;
 
   }
 };
-function InViewport(a) {
-  let b = a.getBoundingClientRect();
+function InViewport(a) {const b = a.getBoundingClientb();
+  
   return (
     b.top >= 0 &&
-    b.left >= 0 &&
-    b.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-    b.right <= (window.innerWidth || document.documentElement.clientWidth)
-  );
-};
+    
+    b.bottom <=
+      0.5 * (window.innerHeight || document.documentElement.clientHeight)&&
+      b.left>= 0 &&
+    
+    b.right <=
+      0.5 * (window.innerWidth || document.documentElement.clientWidth)
+      
+  );}
+  
 // add section 4
 const section_cont = function () {
   var main = document.getElementsByTagName("main");
@@ -56,9 +61,10 @@ function ActiveClass() {
   while (i < sect.length);
 }
 
-const scrollToClick = () => navi.onclick = (event) => {
+const scrollClick = () => navi.onclick = (event) => {
+  event.preventDefault();
   const clicked = document.querySelector('#' + event.target.dataset.nav)
-  clicked.scrollIntoView();
+  clicked.scrollIntoView({behavior: "smooth"});
 };
 
 
@@ -70,5 +76,5 @@ window.addEventListener("DOMContentLoaded", section_cont, true);
 window.addEventListener("DOMContentLoaded", navadd);
 
 window.addEventListener("DOMContentLoaded", ActiveClass, true);
-scrollToClick();
+window.addEventListener("DOMContentLoaded", scrollClick, true);
   
