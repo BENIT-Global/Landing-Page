@@ -1,135 +1,74 @@
-/**
- * 
- * Manipulating the DOM exercise.
- * Exercise programmatically builds navigation,
- * scrolls to anchors from navigation,
- * and highlights section in viewport upon scrolling.
- * 
- * Dependencies: None
- * 
- * JS Version: ES2015/ES6
- * 
- * JS Standard: ESlint
- * 
-*/
 
-/**
- * Define Global Variables
- * 
-*/
-var htmlnav = document.getElementById('navbar__list');
-var htmlsects = document.getElementsByTagName('section')
 
-/**
- * End Global Variables
- * Start Helper Functions
- * 
-*/
+// add navbar
+var navi = document.getElementById("#navbar list");
+const sect = document.getElementsByTagName("section");
+const navadd = () => {
+  w = 0;
+  while (w < sect.length + 1) {
+    var sects = new DOMParser();
+    const domString = '<div class="menu_link"><a href= "#section1">Sect 1</a></div>';
+    const domString2 = '<div class="menu_link"><a href= "#section2">Sect 2</a></div>';
+    const domString3 = '<div class="menu_link"><a href= "#section3">Sect 3</a></div>';
+    const domString4 = '<div class="menu_link"><a href= "#section4">Sect 4</a></div>';
+    var html = sects.parseFromString(domString, 'text/html');
+    var html2 = sects.parseFromString(domString2, 'text/html');
+    var html3 = sects.parseFromString(domString3, 'text/html');
+    var html4 = sects.parseFromString(domString4, 'text/html');
+    document.header.append(html.header.childNodes[0]);
+    document.header.append(html2.header.childNodes[1]);
+    document.header.append(html3.header.childNodes[2]);
+    document.header.append(html4.header.childNodes[3]);
 
-// check which element is active
-const active_elem = () => {
-  max = htmlsects[0];
-  min = 31415926;
-  for (small_section in htmlsects) {
-    let rect = small_section.getrectClientRect();
-    if (!(rect.top > -100 & rect.top < min)) {
-      // do nothing
+    w++;
 
-    } else {
-      min = rect.top;
-      max = small_section;
-    };
-  };
-  return max;
-}
-
-/**
- * End Helper Functions
- * Begin Main Functions
- * 
-*/
-
-// build the nav
-const sect_add = () => {
-  for (let object of htmlsects) {
-    let new_ele = document.createElement('li');
-    new_ele.className = 'menu__link';
-    new_ele.dataset.nav = object.id;
-    new_ele.innerText = object.dataset.nav;
-    htmlnav.appendChild(new_ele);
-  };
-}
-
-// Add class 'active' to section when near top of viewport
-const active_viewport = () => window.addEventListener('scroll', (_event) => {
-  let _sect = getActiveElem();
-  _sect.classList.add('your-active-class');
-  // set other sections as inactive
-  for (let section in htmlsects) {
-    if (section.id != _sect.id & _sect.classList.contains('your-active-class')) {
-      section.classList.remove('your-active-class');
-    }
   }
-  // set corresponding header style
-  const set_head = document.querySelector('li[data-nav="' + _sect.id + '"]');
-  set_head.classList.add('active__link');
-  // remove from other headers
-  const headers = document.getElementsByTagName('.menu__link');
-  for (let sect in headers) {
-    console.log(sect);
-    if (!(sect.dataset.nav != set_head.dataset.nav & sect.classList.contains('active__link'))) {
-      // do nothing
-
-    } else {
-      sect.classList.remove('active__link');
-    }
-  };
-});
-
-// Scroll to anchor ID using scrollTO event
-const scrolling = () => htmlnav.addEventListener('click', function (event) {
-  const click = document.querySelector('#' + event.target.dataset.nav)
-  click.scrollIntoView();
-});
-
-
-
-var mybutton = document.getElementById("myBtn");
-
-window.onscroll = () => scroll_Function();
-
-var prevScrollpos = window.pageYOffset;
-
-
-
-const scroll_Function = () => {
-  var currentScrollPos = window.pageYOffset;
-  if ((document.documentElement.scrollTop) > 500 & (prevScrollpos > currentScrollPos) ){
-  mybutton.style.display= "block";
-  document.getElementById("navbars").style.top = "0";
-} else {
-  document.getElementById("navbars").style.top = "-50px";
-  mybutton.style.display = "none";
+};
+function InViewport(a) {
+  let b = a.getBoundingClientRect();
+  return (
+    b.top >= 0 &&
+    b.left >= 0 &&
+    b.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+    b.right <= (window.innerWidth || document.documentElement.clientWidth)
+  );
+};
+// add section 4
+const section_cont = function () {
+  var main = document.getElementsByTagName("main");
+  const section4 = document.createElement("section");
+  var stringg = '<section id="section4" data-nav="Section 4" class="your-active-class"><h2>Section 4</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi fermentum metus faucibus lectus pharetra dapibus. Suspendisse potenti. Aenean aliquam elementum mi, ac euismod augue. Donec eget lacinia ex. Phasellus imperdiet porta orci eget mollis. Sed convallis sollicitudin mauris ac tincidunt. Donec bibendum, nulla eget bibendum consectetur, sem nisi aliquam leo, ut pulvinar quam nunc eu augue. Pellentesque maximus imperdiet elit a pharetra. Duis lectus mi, aliquam in mi quis, aliquam porttitor lacus. Morbi a tincidunt felis. Sed leo nunc, pharetra et elementum non, faucibus vitae elit. Integer nec libero venenatis libero ultricies molestie semper in tellus. Sed congue et odio sed euismod.</p></section>';
+  section4.innerHTML = stringg;
+  main.innerHTML = section4;
 }
-    // control the display of the button
-    prevScrollpos = currentScrollPos;
 
-    
+//Add class 'active' to section when near top of viewport
+function ActiveClass() {
+  i = 0;
+  do {
+    if (InViewport(sect[i])) {
+      sect[i].classList.add("your-active-class");
+    } else {
+      sect[i].classList.remove("your-active-class");
+    }
+    i = i + 1;
   }
-  setTimeout(scroll_Function,200)
- 
+  while (i < sect.length);
+}
+
+const scrollToClick = () => navi.onclick = (event) => {
+  const clicked = document.querySelector('#' + event.target.dataset.nav)
+  clicked.scrollIntoView();
+};
+
+
+
+
+//load the section content function first (in the capture phase)
+window.addEventListener("DOMContentLoaded", section_cont, true);
+//load the navElementAdder function second in the bubbling phase
+window.addEventListener("DOMContentLoaded", navadd);
+
+window.addEventListener("DOMContentLoaded", ActiveClass, true);
+scrollToClick();
   
-    
-  
-  
-const scroll_position = () => window.scrollTo(0, 0)
-
-// Build menu 
-sect_add();
-
-// Scroll to section on link click
-scrolling();
-
-// Set sections as active
-active_viewport();
-
